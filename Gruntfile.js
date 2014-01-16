@@ -3,6 +3,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-dot-compiler');
     grunt.loadNpmTasks('grunt-parallel');
@@ -12,16 +13,20 @@ module.exports = function (grunt) {
         
         /* Package client js */
         browserify: {
-            'dist/app.js': ['src/js/app.js']
+            'dist/app.js': ['src/scripts/app.js']
         },
 
         /* Watch source code */
         watch: {
-            js: {
-                files: 'src/js/**/*.js',
-                tasks: ['clean', 'browserify']
+            scripts: {
+                files: 'src/scripts/**/*.js',
+                tasks: ['clean:scripts', 'browserify']
             },
-            dot: {
+            styles: {
+                files: 'src/styles/**/*.scss',
+                tasks: ['clean:styles', 'sass']
+            },
+            templates: {
                 files: 'src/templates/**/*.dot',
                 tasks: ['dot']
             }
@@ -44,11 +49,27 @@ module.exports = function (grunt) {
                     requirejs: true
                 },
                 src  : ['src/templates/**/*.dot'],
-                dest : 'src/js/tmpl.js'
+                dest : 'src/scripts/tmpl.js'
+            }
+        },
+
+         /* Sass compilation */
+        sass: {
+            dev: {
+                options: {
+                    style: 'expanded',
+                    debug: true
+                },
+                files: {
+                    'dist/app.css': 'src/styles/app.scss'
+                }
             }
         },
         
-        clean: ["dist/"],
+        clean: {
+            styles: ["dist/app.css"],
+            scripts: ["dist/app.js"]
+        },
 
         /* Run demo and watch in // */
         parallel: {
@@ -62,6 +83,6 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('build', ['clean', 'dot', 'browserify']);
+    grunt.registerTask('build', ['clean', 'dot', 'sass', 'browserify']);
     grunt.registerTask('default', ['build', 'parallel']);
 };

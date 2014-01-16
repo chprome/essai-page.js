@@ -3,6 +3,6 @@ var model = require('../models/Equipe');
 
 module.exports = {
     show : function() {
-        view.show({equipes: model.all()});
+        view.show(model.all());
     }
 };

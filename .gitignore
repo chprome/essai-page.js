@@ -1,4 +1,4 @@
 node_modules
 dist
-src/js/tmpl.js
+src/scripts/tmpl.js
 .sass-cache

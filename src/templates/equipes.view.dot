@@ -1,5 +1,5 @@
 <ul>
-{{~ it.equipes :value:index}}  
+{{~ it :value:index}}  
     <li><b>{{=index}}</b> : {{=value.name}} - {{=value.captain}}</li>
 {{~}}
 </ul>

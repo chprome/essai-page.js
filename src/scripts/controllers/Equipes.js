@@ -1,12 +1,8 @@
 var view = require('../views/Equipes');
+var model = require('../models/Equipe');
 
 module.exports = {
     show : function() {
-        var data = [
-            {name: 'France', captain: 'Zidane'},
-            {name: 'Espagne', captain: 'Ignesta'},
-            {name: 'Brésil', captain: 'Pelé'}
-        ];
-        view.show({equipes: data});
+        view.show({equipes: model.all()});
     }
 };
